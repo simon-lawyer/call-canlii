@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: "call-canlii"
+  site-url: "https://simon-lawyer.github.io/call-canlii"
+  description: "Interact with CanLII programmatically"
+  repo-branch: main
+  repo-url: "https://github.com/simon-lawyer/call-canlii"
