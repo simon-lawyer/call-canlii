@@ -12,7 +12,7 @@ import json
 class Caller:
     "Enter your APIkey and your preferred language ('en' or 'fr')"
     def __init__(self, APIkey, language):
-        self.key = APIKey
+        self.key = APIkey
         self.language = language
     
     def isolate_id(self, dictionary):
