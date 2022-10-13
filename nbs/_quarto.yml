@@ -3,7 +3,7 @@ project:
 
 format:
   html:
-    theme: cosmo
+    theme: simplex
     css: styles.css
     toc: true
 
@@ -12,7 +12,7 @@ website:
   open-graph: true
   repo-actions: [issue]
   navbar:
-    background: primary
+    background: secondary
     search: true
   sidebar:
     style: floating
