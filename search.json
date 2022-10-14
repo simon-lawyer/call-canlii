@@ -1,0 +1,58 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Call CanLii",
+    "section": "",
+    "text": "CanLii is an indispensable research tool for lawyers, law students, judges, adjudicators, and researchers. Largely funded by Canadian lawyers, it is the international gold standard when it comes to the free and open access to law.\nWith an intuitive and beautiful interface, researchers use CanLii to look up an individual case or statute, read it, see what cites it, and see what it cites.\nSome legal researchers and social scientists require bulk access to legal data for their projects. Fortunately, CanLii provides an API that allows (limited) programmatic access to its databases. Too few legal researchers, however, know how to use and interact with APIs.\nThis library’s purpose is simple: make it easier to use CanLii’s APIs. More than that, I demonstrate how easy it is to use code to facilitate aspects of legal research. Use the library, but look at its source code and see if it inspires you to do more. You can do this!\nSimon Wallace, PhD student (Osgoode Hall Law School), 2022"
+  },
+  {
+    "objectID": "index.html#install",
+    "href": "index.html#install",
+    "title": "Call CanLii",
+    "section": "Install",
+    "text": "Install\npip install call_canlii\nor\nconda install call_canlii"
+  },
+  {
+    "objectID": "index.html#usage",
+    "href": "index.html#usage",
+    "title": "Call CanLii",
+    "section": "Usage",
+    "text": "Usage\n\nGet and use your secret API key\nTo use CanLii’s API, you need your own secret access key. Applying for a key is simple. Just send a request through the Canlii feedback form.\nOnce you have your API key, the rest is easy. First, enter your secret API key and, second, enter your preferred language (‘en’ or ‘fr’). Then call the object.\n\napi = 'MY SECRET API KEY' #this will look like lots of numbers and letters\nlanguage = 'en'\n\nmy_caller = Caller(api, language)"
+  },
+  {
+    "objectID": "index.html#a-sample-research-project",
+    "href": "index.html#a-sample-research-project",
+    "title": "Call CanLii",
+    "section": "A sample research project",
+    "text": "A sample research project\nTo see how to use the library, let’s do a simple research project and figure out what statutes a recent Supreme Court of Canada case cites to. To do this, we need to figure out where CanLii stores the case and the case name.\n\nLookup CanLii database names\nFirst, let’s get a list of CanLii database names.\n\nmy_caller.list_tribunals()\n\n\n\n\n\n  \n    \n      \n      databaseId\n      jurisdiction\n      name\n    \n  \n  \n    \n      0\n      qccdoooq\n      qc\n      Conseil de discipline de l'Ordre des opticiens...\n    \n    \n      1\n      qcoaciq\n      qc\n      Comité de discipline de l'organisme d'autorégl...\n    \n    \n      2\n      skqb\n      sk\n      Court of King's Bench for Saskatchewan\n    \n    \n      3\n      onsc\n      on\n      Superior Court of Justice\n    \n    \n      4\n      abmgb\n      ab\n      Alberta Municipal Government Board\n    \n    \n      ...\n      ...\n      ...\n      ...\n    \n    \n      357\n      ytrto\n      yk\n      Yukon Residential Tenancies Office\n    \n    \n      358\n      nbsec\n      nb\n      Financial and Consumer Services Tribunal\n    \n    \n      359\n      onbcc\n      on\n      Building Code Commission\n    \n    \n      360\n      exchc-cech\n      ca\n      Exchequer Court of Canada\n    \n    \n      361\n      nttc\n      nt\n      Territorial Court of the Northwest Territories\n    \n  \n\n362 rows × 3 columns\n\n\n\nWe can do a few things from here. First, if you want to save this as an excel or a csv file, that’s easy!\n\nmy_caller.list_tribunals().to_csv('CanLii_tribunal_list.csv')\n\nOr you can search directly for the Supreme Court of Canada’s database ID.\n\ndf = my_caller.list_tribunals()\ndf[df['name'] == 'Supreme Court of Canada']\n\n\n\n\n\n  \n    \n      \n      databaseId\n      jurisdiction\n      name\n    \n  \n  \n    \n      90\n      csc-scc\n      ca\n      Supreme Court of Canada\n    \n  \n\n\n\n\n\n\nFind recent decisions by the SCC\nGreat! Now that we have the database ID for SCC cases, we can zero in on a recent case. To list individual cases from the database, we call a different function.\nThis function has a few paramaters. You can decide whether you want the results in ascending or descending chronological order (defaults to descending) and how many results you want the API to return (defaults to 100).\n\nmy_caller.list_decisions(databaseId='csc-scc', offset=0, resultCount=10)\n\n\n\n\n\n  \n    \n      \n      caseId\n      title\n      citation\n    \n  \n  \n    \n      0\n      2022scc34\n      R. v. Schneider\n      2022 SCC 34 (CanLII)\n    \n    \n      1\n      2022scc33\n      R. v. Kirkpatrick\n      2022 SCC 33 (CanLII)\n    \n    \n      2\n      2022scc32\n      R. v. Lafrance\n      2022 SCC 32 (CanLII)\n    \n    \n      3\n      2022scc31\n      R. v. Sundman\n      2022 SCC 31 (CanLII)\n    \n    \n      4\n      2022scc30\n      Society of Composers, Authors and Music Publis...\n      2022 SCC 30 (CanLII)\n    \n    \n      5\n      2022scc29\n      Law Society of Saskatchewan v. Abrametz\n      2022 SCC 29 (CanLII)\n    \n    \n      6\n      2022scc28\n      R. v. J.J.\n      2022 SCC 28 (CanLII)\n    \n    \n      7\n      2022scc27\n      British Columbia (Attorney General) v. Council...\n      2022 SCC 27 (CanLII)\n    \n    \n      8\n      2022scc26\n      Canada (Attorney General) v. Collins Family Trust\n      2022 SCC 26 (CanLII)\n    \n    \n      9\n      2022scc25\n      R. v. Goforth\n      2022 SCC 25 (CanLII)\n    \n  \n\n\n\n\n\n\nSearch for case metadata\nWe can look up the metadata for any case. Let’s see what the fifth case down is about.\n\nmy_caller.case_metadata(databaseId='csc-scc', caseId='2022scc30')\n\ndatabaseId                                                  csc-scc\ncaseId                                                    2022scc30\nurl                                       https://canlii.ca/t/jqgw0\ntitle             Society of Composers, Authors and Music Publis...\ncitation                                       2022 SCC 30 (CanLII)\nlanguage                                                         en\ndocketNumber                                                  39418\ndecisionDate                                             2022-07-15\nkeywords          technological neutrality — available for on-de...\ntopics                                                             \nconcatenatedId                                        2022csc-scc30\ndtype: object\n\n\n\n\nCheck to see what legislation the Court cites\nInteresting! This case is interesting, I wonder what statutory provisions in cites?\n\nmy_caller.case_cites_of_legislation(databaseId='csc-scc', caseId='2022scc30')\n\n\n\n\n\n  \n    \n      \n      databaseId\n      legislationId\n      title\n      citation\n      type\n    \n  \n  \n    \n      0\n      cas\n      rsc-1985-c-c-42\n      Copyright Act\n      RSC 1985, c C-42\n      STATUTE\n    \n    \n      1\n      caa\n      sc-2012-c-20\n      Copyright Modernization Act\n      SC 2012, c 20\n      ANNUAL_STATUTE\n    \n  \n\n\n\n\nOnly two! Even though the full judgement is long, this looks right."
+  },
+  {
+    "objectID": "index.html#using-loops",
+    "href": "index.html#using-loops",
+    "title": "Call CanLii",
+    "section": "Using loops",
+    "text": "Using loops\nThis program is designed to support queries at scale. You can, for example, retrieve all of the keywords for the last ten SCC decisions.\nFirst, request a dataframe of the last ten decisions.\n\ndf = my_caller.list_decisions(databaseId='csc-scc', offset=0, resultCount=10)\ndf\n\nSecond, loop over the dataframe and make a separate call for the keywords of each case.\n\nfor index,row in df.iterrows():\n    case = df.loc[index,'caseId']\n    print(f'Keywords for {case}.')\n    print(my_caller.case_metadata(databaseId='csc-scc', caseId=case)['keywords'])\n    print('---')\n\nKeywords for 2022scc34.\nbrother — overheard — jury — evidence — probative value\n---\nKeywords for 2022scc33.\nstare decisis — sexual activity — precedent — without a condom — sex\n---\nKeywords for 2022scc32.\npolice — detainee — detention — interview — encounter\n---\nKeywords for 2022scc31.\nunlawful confinement — degree murder — domination — truck — temporal-causal connection\n---\nKeywords for 2022scc30.\ntechnological neutrality — available for on-demand streaming — work — royalties — works\n---\nKeywords for 2022scc29.\nabuse — inordinate delay — process — stay — prejudice\n---\nKeywords for 2022scc28.\nrecord screening regime — complainants — privacy — evidence — defence\n---\nKeywords for 2022scc27.\nwell-developed factual setting — public interest standing — access to justice — disabilities — legality\n---\nKeywords for 2022scc26.\ntax — rescission — taxpayer — rectification — mistake\n---\nKeywords for 2022scc25.\njury — unlawfully causing bodily harm — necessaries — mens rea requirement — marked departure\n---"
+  },
+  {
+    "objectID": "caller.html",
+    "href": "caller.html",
+    "title": "caller",
+    "section": "",
+    "text": "source\nSimon Wallace, PhD student (Osgoode Hall Law School), 2022"
+  },
+  {
+    "objectID": "caller.html#instantiate-the-object",
+    "href": "caller.html#instantiate-the-object",
+    "title": "caller",
+    "section": "Instantiate the object",
+    "text": "Instantiate the object\nEnter your API and preferred language when you substantiate the Caller.\nAPI = \"YOUR SECRET KEY\"\nlanguage = 'en'\n\nmy_caller = Caller(API,language)"
+  },
+  {
+    "objectID": "caller.html#use-the-caller-to-make-discrete-canlii-requests",
+    "href": "caller.html#use-the-caller-to-make-discrete-canlii-requests",
+    "title": "caller",
+    "section": "Use the Caller to make discrete CanLii requests",
+    "text": "Use the Caller to make discrete CanLii requests\nThe caller can:\n\nList all CanLii tribunal databases\nList all decisions in a CanLii database\nQuery metadata for a specific case\nList the cases the target case cites\nList the legislation the target case cites\nList the cases that cite the target case\n\n\nsource\n\nCaller.list_tribunals\n\n Caller.list_tribunals ()\n\nNo arguments required. Automatically checks CanLii for the latest list of databases.\n\nsource\n\n\nCaller.list_decisions\n\n Caller.list_decisions (databaseId, offset=0, resultCount=100)\n\nOffset: (0 = descending, 1 = ascending)\n\nsource\n\n\nCaller.case_metadata\n\n Caller.case_metadata (databaseId, caseId)\n\n\nsource\n\n\nCaller.case_cites_of_cases\n\n Caller.case_cites_of_cases (databaseId, caseId)\n\nGet a list of all the cases your target case cites.\n\nsource\n\n\nCaller.case_cites_of_legislation\n\n Caller.case_cites_of_legislation (databaseId, caseId)\n\nGet a list of all the legislation your target case cites.\n\nsource\n\n\nCaller.cites_of_case\n\n Caller.cites_of_case (databaseId, caseId)\n\nGet a list of all the cases that cite your target case."
+  }
+]
