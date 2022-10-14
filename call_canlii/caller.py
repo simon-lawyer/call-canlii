@@ -11,8 +11,8 @@ import json
 # %% ../nbs/00_caller.ipynb 4
 class Caller:
     "Enter your APIkey and your preferred language ('en' or 'fr')"
-    def __init__(self, APIkey, language):
-        self.key = APIkey
+    def __init__(self, key, language):
+        self.key = key
         self.language = language
     
     def isolate_id(self, dictionary):
