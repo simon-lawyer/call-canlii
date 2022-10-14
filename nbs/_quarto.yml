@@ -16,5 +16,6 @@ website:
     search: true
   sidebar:
     style: floating
+  body-footer: 'Simon Wallace, PhD student (Osgoode Hall Law School), 2022'
 
 metadata-files: [nbdev.yml, sidebar.yml]
