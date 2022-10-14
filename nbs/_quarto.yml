@@ -10,10 +10,17 @@ format:
 website:
   twitter-card: true
   open-graph: true
+  google-analytics: "G-L7BN9K37E9"
   repo-actions: [issue]
   navbar:
     background: secondary
     search: true
+    right:
+        - text: 'About me'
+          href: 'http://www.simonwallace.ca'
+        - icon: github
+          href: https://github.com/simon-lawyer/call-canlii
+
   sidebar:
     style: floating
   body-footer: 'Simon Wallace, PhD student (Osgoode Hall Law School), 2022'
