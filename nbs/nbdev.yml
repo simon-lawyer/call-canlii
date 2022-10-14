@@ -2,8 +2,8 @@ project:
   output-dir: _docs
 
 website:
-  title: "Call CanLii"
-  site-url: "https://www.simonwallace.ca/call-canlii"
+  title: "call-canlii"
+  site-url: "https://simon-lawyer.github.io/call-canlii"
   description: "Interact with CanLII programmatically"
   repo-branch: master
   repo-url: "https://github.com/simon-lawyer/call-canlii"
